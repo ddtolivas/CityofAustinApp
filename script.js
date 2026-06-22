@@ -33,9 +33,7 @@ function initializeApp() {
     
     // Initialize interactive elements
     initializeInteractiveElements();
-    
-    // Load mock business data
-    loadMockBusinessData();
+    // Map locations are loaded from the published Google Sheet.
 }
 
 // User data management
