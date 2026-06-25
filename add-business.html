@@ -261,7 +261,6 @@
 
             setText('preview-name', document.getElementById('business-name').value || 'Business name');
             setText('preview-category', document.getElementById('business-category').value || 'Category');
-            setText('preview-price', document.getElementById('business-price').value || 'Price not listed');
             setText('preview-address', document.getElementById('business-address').value || 'Austin, TX');
             setText('preview-description', document.getElementById('business-description').value || 'Your description will appear here and help visitors understand what makes this business special.');
             setText('preview-hours', document.getElementById('business-hours').value || 'Hours not listed');
@@ -321,7 +320,6 @@
                 id: Date.now(),
                 name: document.getElementById('business-name').value.trim(),
                 category: document.getElementById('business-category').value,
-                price: document.getElementById('business-price').value,
                 description: document.getElementById('business-description').value.trim(),
                 address: document.getElementById('business-address').value.trim(),
                 lat: Number(document.getElementById('business-lat').value),
