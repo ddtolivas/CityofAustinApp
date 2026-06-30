@@ -10,40 +10,48 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
+<nav class="navbar">
+    <div class="nav-container">
+
+        <!-- Logo -->
+        <a href="index.html" class="nav-logo">
+            <i class="fas fa-search-location"></i>
+            <span>LocalLens</span>
+        </a>
+
+        <!-- Navigation -->
+        <div class="nav-items">
+
+            <a href="index.html" class="nav-item active">
                 <i class="fas fa-home"></i>
-                <span id="logo-text">LocalLens</span>
+                Home
+            </a>
+
+            <a href="map.html" class="nav-item">
+                <i class="fas fa-map"></i>
+                Map
+            </a>
+
+            <a href="add-business.html" class="nav-item">
+                <i class="fas fa-plus"></i>
+                Add Business
+            </a>
+
+            <div class="search-container">
+                <input type="text" placeholder="Search businesses..." id="home-search">
+                <button type="button">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
-            <div class="nav-items">
-                <a href="index.html" class="nav-item active">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="map.html" class="nav-item">
-                    <i class="fas fa-map"></i>
-                    <span>Map</span>
-                </a>
-                <a href="add-business.html" class="nav-item">
-                    <i class="fas fa-plus"></i>
-                    <span>Add Business</span>
-                </a>
-                <div class="nav-brand">
-                    <i class="fas fa-search-location"></i>
-                    <span>LocalLens</span>
-                </div>
-                <div class="search-container">
-                    <input type="text" placeholder="Search businesses..." id="home-search">
-                    <button type="button"><i class="fas fa-search"></i></button>
-                </div>
-                <a href="account.html" class="nav-item">
-                    <i class="fas fa-user"></i>
-                    <span>Account</span>
-                </a>
-            </div>
+
+            <a href="account.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                Account
+            </a>
+
         </div>
-    </nav>
+    </div>
+</nav>
 
     <!-- Hero Section with Austin Background -->
     <section class="hero">
@@ -110,7 +118,7 @@
                     </p>
                 </div>
                 <div class="about-image">
-                    <img src="https://media.istockphoto.com/id/592651910/photo/austin-texas-skyline.jpg?s=612x612&w=0&k=20&c=B7AozA89AxOwisBe9UBj8TJvMRKr8FooVob9JD7FfEM=" alt="Austin Community">
+                    <img src="https://images.unsplash.com/photo-1521223619409-8085d2607891?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Austin Community">
                 </div>
             </div>
         </div>
@@ -132,7 +140,7 @@
                         <li><a href="account.html">Account</a></li>
                     </ul>
                 </div>
-            
+            </div>
         </div>
     </footer>
 

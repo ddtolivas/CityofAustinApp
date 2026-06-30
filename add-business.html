@@ -13,24 +13,34 @@
 <body class="add-business-page">
     <nav class="navbar">
         <div class="nav-container">
-            <a class="nav-logo" href="index.html" aria-label="LocalLens home">
-                <i class="fas fa-home"></i>
-                <span id="logo-text">LocalLens</span>
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-search-location"></i>
+                <span>LocalLens</span>
             </a>
             <div class="nav-items">
-                <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
-                <a href="map.html" class="nav-item"><i class="fas fa-map"></i><span>Map</span></a>
-                <a href="add-business.html" class="nav-item active"><i class="fas fa-plus"></i><span>Add Business</span></a>
-                <div class="nav-brand"><i class="fas fa-search-location"></i><span>LocalLens</span></div>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Home
+                </a>
+                <a href="map.html" class="nav-item">
+                    <i class="fas fa-map"></i>
+                    Map
+                </a>
+                <a href="add-business.html" class="nav-item active">
+                    <i class="fas fa-plus"></i>
+                    Add Business
+                </a>
                 <div class="search-container">
                     <input type="text" placeholder="Search businesses..." id="add-business-search">
                     <button type="button" aria-label="Search"><i class="fas fa-search"></i></button>
                 </div>
-                <a href="account.html" class="nav-item"><i class="fas fa-user"></i><span>Account</span></a>
+                <a href="account.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Account
+                </a>
             </div>
         </div>
     </nav>
-
     <main class="add-business-main">
         <header class="submission-header">
             <div>
@@ -240,15 +250,150 @@
                     <h3>Quick Links</h3>
                     <ul><li><a href="index.html">Home</a></li><li><a href="map.html">Map</a></li><li><a href="account.html">Account</a></li></ul>
                 </div>
-                <div class="footer-section">
-                    <h3>Connect</h3>
-                    <div class="social-links"><a href="#"><i class="fab fa-facebook"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div>
-                </div>
             </div>
             <div class="footer-bottom"><p>&copy; 2026 LocalLens. All rights reserved.</p></div>
         </div>
     </footer>
 
-    <script src="add-business.js?v=1"></script>
+    <script src="script.js?v=8"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', initializeAddBusinessForm);
+        const REVIEW_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwlyycdXcbLm-5LqKBgtQWbxHciOXhTjQDKaHv3MznnZre0N6KnGwNH8BxaaQHLYFI-zg/exec';
+
+        function initializeAddBusinessForm() {
+            const form = document.getElementById('add-business-form');
+            form.addEventListener('submit', handleAddBusiness);
+            form.addEventListener('input', updatePreview);
+            form.addEventListener('change', updatePreview);
+
+            document.getElementById('reset-business-form').addEventListener('click', resetForm);
+            document.getElementById('add-another-business').addEventListener('click', addAnotherBusiness);
+            document.getElementById('view-business-map').addEventListener('click', function () {
+                window.location.href = 'map.html';
+            });
+
+            document.getElementById('business-lat').value = '30.2672';
+            document.getElementById('business-lng').value = '-97.7431';
+            updatePreview();
+        }
+
+        function getScores() {
+            return {
+                taste: Number(document.getElementById('score-taste').value),
+                price: Number(document.getElementById('score-price').value),
+                setting: Number(document.getElementById('score-setting').value),
+                service: Number(document.getElementById('score-service').value),
+                wait: Number(document.getElementById('score-wait').value)
+            };
+        }
+
+        function updatePreview() {
+            const scores = getScores();
+            const average = (Object.values(scores).reduce(function (total, score) {
+                return total + score;
+            }, 0) / 5).toFixed(1);
+
+            setText('preview-name', document.getElementById('business-name').value || 'Business name');
+            setText('preview-category', document.getElementById('business-category').value || 'Category');
+            setText('preview-address', document.getElementById('business-address').value || 'Austin, TX');
+            setText('preview-description', document.getElementById('business-description').value || 'Your description will appear here and help visitors understand what makes this business special.');
+            setText('preview-hours', document.getElementById('business-hours').value || 'Hours not listed');
+            setText('preview-average', average);
+            setText('form-average', average);
+            setText('preview-taste', scores.taste + '/5');
+            setText('preview-price-score', scores.price + '/5');
+            setText('preview-setting', scores.setting + '/5');
+            setText('preview-service', scores.service + '/5');
+            setText('preview-wait', scores.wait + '/5');
+            setText('description-count', document.getElementById('business-description').value.length);
+
+            document.querySelectorAll('.score-input').forEach(function (group) {
+                const input = group.querySelector('input');
+                group.querySelector('output').textContent = input.value;
+                input.style.setProperty('--score-progress', ((Number(input.value) - 1) / 4 * 100) + '%');
+            });
+
+            updatePreviewImage();
+        }
+
+        function updatePreviewImage() {
+            const source = document.getElementById('business-image').value.trim();
+            const image = document.getElementById('preview-image');
+            const placeholder = document.getElementById('preview-image-placeholder');
+
+            if (!source) {
+                image.hidden = true;
+                image.removeAttribute('src');
+                placeholder.hidden = false;
+                return;
+            }
+
+            image.onload = function () {
+                image.hidden = false;
+                placeholder.hidden = true;
+            };
+            image.onerror = function () {
+                image.hidden = true;
+                placeholder.hidden = false;
+            };
+            image.src = source;
+            image.alt = (document.getElementById('business-name').value || 'Business') + ' preview';
+        }
+
+        function setText(id, value) {
+            document.getElementById(id).textContent = value;
+        }
+
+        function handleAddBusiness(event) {
+            event.preventDefault();
+            const form = event.currentTarget;
+            if (!form.reportValidity()) return;
+
+            const scores = getScores();
+            const formData = {
+                id: Date.now(),
+                name: document.getElementById('business-name').value.trim(),
+                category: document.getElementById('business-category').value,
+                description: document.getElementById('business-description').value.trim(),
+                address: document.getElementById('business-address').value.trim(),
+                lat: Number(document.getElementById('business-lat').value),
+                lng: Number(document.getElementById('business-lng').value),
+                phone: document.getElementById('business-phone').value.trim(),
+                hours: document.getElementById('business-hours').value.trim(),
+                image: document.getElementById('business-image').value.trim(),
+                taste: scores.taste,
+                priceScore: scores.price,
+                setting: scores.setting,
+                customerService: scores.service,
+                waitTime: scores.wait,
+                rating: Number((Object.values(scores).reduce(function (total, score) { return total + score; }, 0) / 5).toFixed(1)),
+                dateAdded: new Date().toISOString()
+            };
+
+            fetch(REVIEW_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(formData)
+            });
+
+            document.querySelector('.submission-layout').hidden = true;
+            document.getElementById('success-message').hidden = false;
+        }
+
+        function resetForm() {
+            const form = document.getElementById('add-business-form');
+            form.reset();
+            document.getElementById('business-lat').value = '30.2672';
+            document.getElementById('business-lng').value = '-97.7431';
+            updatePreview();
+        }
+
+        function addAnotherBusiness() {
+            document.querySelector('.submission-layout').hidden = false;
+            document.getElementById('success-message').hidden = true;
+            resetForm();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
