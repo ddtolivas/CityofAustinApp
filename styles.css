@@ -520,9 +520,9 @@ body {
 }
 
 .view-btn.active {
-    background: #667eea;
+    background: #28a745;
     color: white;
-    border-color: #667eea;
+    border-color: #28a745;
 }
 
 /* Business List */
