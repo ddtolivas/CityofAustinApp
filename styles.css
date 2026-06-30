@@ -12,6 +12,10 @@ body {
     background-color: #f8f9fa;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -87,6 +91,20 @@ body {
 
 .nav-item i {
     margin-right: 8px;
+}
+
+.nav-brand {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.nav-brand i {
+    margin-right: 10px;
 }
 
 .search-container {
